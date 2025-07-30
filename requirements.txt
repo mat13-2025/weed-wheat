@@ -1,0 +1,9 @@
+Django>=3.2,<5.0
+gunicorn
+numpy
+Pillow
+opencv-python
+scikit-learn
+tensorflow
+torch
+matplotlib
