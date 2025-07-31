@@ -5,6 +5,12 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 import os
 
+# Import the model downloader
+from .utils import download_model
+
+# Download model if not already present
+download_model()
+
 # Load trained CNN model
 model = load_model(os.path.join(settings.BASE_DIR, 'model', 'maize_disease_model.h5'))
 
@@ -63,5 +69,6 @@ def predict_disease(request):
 
     # Handle GET or no file uploaded
     return render(request, 'upload.html')
+
 
 
