@@ -8,12 +8,6 @@ import os
 # Import the model downloader
 from .utils import download_model
 
-# Download model if not already present
-download_model()
-
-# Load trained CNN model
-model = load_model(os.path.join(settings.BASE_DIR, 'model', 'maize_disease_model.h5'))
-
 # Class labels (must match your model training order)
 class_names = ['wheat', 'weed', 'unknown']
 
@@ -41,6 +35,13 @@ def predict_disease(request):
                 dest.write(chunk)
 
         try:
+            # ⬇️ Ensure model is downloaded before loading
+            download_model()
+
+            # Load model (only when needed)
+            model_path = os.path.join(settings.BASE_DIR, 'model', 'maize_disease_model.h5')
+            model = load_model(model_path)
+
             # Preprocess image
             img = image.load_img(file_path, target_size=(150, 150))
             img_array = image.img_to_array(img) / 255.0
