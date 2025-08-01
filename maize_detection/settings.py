@@ -19,6 +19,11 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 # Allow Railway and local development
 ALLOWED_HOSTS = ['.railway.app', 'localhost', '127.0.0.1']
 
+# ✅ Fix for CSRF 403 error
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-faf2a.up.railway.app',
+]
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -45,12 +50,12 @@ ROOT_URLCONF = 'maize_detection.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # You can add template folders here if needed
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
-                'django.template.context_processors.csrf',  # ✅ Required for {% csrf_token %}
+                'django.template.context_processors.csrf',  # Needed for {% csrf_token %}
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -92,5 +97,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 
