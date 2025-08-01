@@ -16,8 +16,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'unsafe-temp-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-# Allow Railway domain
-ALLOWED_HOSTS = ['.railway.app']
+# Allow Railway and local development
+ALLOWED_HOSTS = ['.railway.app', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'predictor',  # Your app
+    'predictor',  # Your custom app
 ]
 
 MIDDLEWARE = [
@@ -45,11 +45,12 @@ ROOT_URLCONF = 'maize_detection.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # Add template dirs here if needed
+        'DIRS': [],  # You can add template folders here if needed
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
+                'django.template.context_processors.csrf',  # ✅ Required for {% csrf_token %}
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -59,7 +60,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'maize_detection.wsgi.application'
 
-# Database (SQLite for now)
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -85,10 +86,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Media files (uploads, model test images, etc.)
+# Media files (uploads, model images, etc.)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
